@@ -22,9 +22,15 @@ const levels = Object.freeze({
   hard: "hard",
 });
 
+const gameState = Object.freeze({
+  ready: "ready",
+  started: "started",
+  stopped: "stopped",
+});
+
 class BreakoutGame {
   level = levels.easy;
-  score = 0;
+  gameState = gameState.ready;
 
   constructor(_PROPS_ = BreakoutGameProps) {
     const props = { ...BreakoutGameProps, ..._PROPS_ };
@@ -50,6 +56,8 @@ class BreakoutGame {
   }
 
   start() {
+    this.gameState = gameState.started;
+
     // drow board
     this.board = document.getElementById("board");
     this.board.width = this.gameWidth;
@@ -63,11 +71,23 @@ class BreakoutGame {
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
   }
 
+  stop() {
+    this.gameState = gameState.stopped;
+
+    // remove all event listeners
+    document.removeEventListener("keydown", (e) => this.eventsHandler(e));
+    // reset score to 0
+    this.score.score = 0;
+  }
+
   eventsHandler(e) {
     this.player.eventTrigger(e);
   }
 
   updateFrame() {
+    // stop requestAnimationFrame loop if game is stopped
+    if (this.gameState === gameState.stopped) return;
+
     requestAnimationFrame(() => this.updateFrame());
 
     // clear canvas

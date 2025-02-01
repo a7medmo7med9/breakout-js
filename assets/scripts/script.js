@@ -11,6 +11,9 @@ document.querySelector("#startTheGame").addEventListener("click", () => {
 
   // you can update the score like this
   game.updateScore(10);
+
+  // you can use stop to stop the game if player lose
+  // game.stop();
 });
 
 // **************************
