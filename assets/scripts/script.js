@@ -8,6 +8,9 @@ document.querySelector("#startTheGame").addEventListener("click", () => {
   document.querySelector(".game").classList.remove("hide");
   game.level = document.querySelector("#level").value;
   game.start();
+
+  // you can update the score like this
+  game.updateScore(10);
 });
 
 // **************************

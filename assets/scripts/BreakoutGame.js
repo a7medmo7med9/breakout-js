@@ -1,9 +1,11 @@
 import Player, { playerProps } from "./Player.js";
+import Score, { scoreProps } from "./Score.js";
 
 const BreakoutGameProps = {
   gameWidth: 500,
   gameHeight: 500,
   player: playerProps,
+  score: scoreProps,
 };
 
 const gameSettings = {
@@ -14,11 +16,23 @@ const gameSettings = {
   },
 };
 
+const levels = Object.freeze({
+  easy: "easy",
+  medium: "medium",
+  hard: "hard",
+});
+
 class BreakoutGame {
-  level = "easy";
-  constructor(props = BreakoutGameProps) {
+  level = levels.easy;
+  score = 0;
+
+  constructor(_PROPS_ = BreakoutGameProps) {
+    const props = { ...BreakoutGameProps, ..._PROPS_ };
     this.gameWidth = props.gameWidth;
     this.gameHeight = props.gameHeight;
+
+    // create score
+    this.score = new Score({ ...props.score, BreakoutGame: this, x: 10, y: 25 });
 
     // create the player
     this.player = new Player({
@@ -61,6 +75,13 @@ class BreakoutGame {
 
     // drow player
     this.player.onFrameUpdate();
+
+    // drow score
+    this.score.onFrameUpdate();
+  }
+
+  updateScore(score) {
+    this.score.score += score;
   }
 
   outOfBounds(xPosation) {
