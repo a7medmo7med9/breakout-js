@@ -1,16 +1,17 @@
 import Entity, { entityProps } from "./Entity.js";
 
-const playerProps = {
+export const playerProps = {
   ...entityProps,
   // extra properties for player
   velocityX: 0,
 };
 
 class Player extends Entity {
-  constructor(data = playerProps) {
-    super({ ...data });
+  constructor(_PROPS_ = playerProps) {
+    const props = { ...playerProps, ..._PROPS_ };
+    super({ ...props });
 
-    this.velocityX = data.velocityX;
+    this.velocityX = props.velocityX;
   }
 
   eventTrigger(e) {
@@ -38,7 +39,7 @@ class Player extends Entity {
   }
 
   onFrameUpdate() {
-    this.BreakoutGame.context.fillStyle = "lightgreen";
+    this.BreakoutGame.context.fillStyle = this.color;
     this.BreakoutGame.context.fillRect(this.x, this.y, this.width, this.height);
   }
 }

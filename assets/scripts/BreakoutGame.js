@@ -1,8 +1,9 @@
-import Player from "./Player.js";
+import Player, { playerProps } from "./Player.js";
 
 const BreakoutGameProps = {
   gameWidth: 500,
   gameHeight: 500,
+  player: playerProps,
 };
 
 const gameSettings = {
@@ -15,11 +16,12 @@ const gameSettings = {
 
 class BreakoutGame {
   constructor(props = BreakoutGameProps) {
-    this.gameHeight = props.gameWidth;
-    this.gameWidth = props.gameHeight;
+    this.gameWidth = props.gameWidth;
+    this.gameHeight = props.gameHeight;
 
     // create the player
     this.player = new Player({
+      ...props.player,
       BreakoutGame: this,
       x: props.gameWidth / 2 - gameSettings.player.playerWidth / 2,
       y: props.gameHeight - gameSettings.player.playerHeight - 5,

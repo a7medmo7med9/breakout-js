@@ -6,14 +6,18 @@ export const entityProps = {
   y: 0,
   width: 0,
   height: 0,
+  color: "lightgreen",
 };
 class Entity {
-  constructor({ BreakoutGame, x, y, width, height } = entityProps) {
-    this.BreakoutGame = BreakoutGame;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+  constructor(_PROPS_ = entityProps) {
+    const props = { ...entityProps, ..._PROPS_ };
+
+    this.BreakoutGame = props.BreakoutGame;
+    this.x = props.x;
+    this.y = props.y;
+    this.width = props.width;
+    this.height = props.height;
+    this.color = props.color;
   }
 
   setSize(width, height) {
