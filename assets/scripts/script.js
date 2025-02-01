@@ -1,7 +1,14 @@
 import BreakoutGame from "./BreakoutGame.js";
 
 // start the game
-new BreakoutGame();
+const game = new BreakoutGame();
+
+document.querySelector("#startTheGame").addEventListener("click", () => {
+  document.querySelector(".menu").classList.add("hide");
+  document.querySelector(".game").classList.remove("hide");
+  game.level = document.querySelector("#level").value;
+  game.start();
+});
 
 // **************************
 // start the game with custom props

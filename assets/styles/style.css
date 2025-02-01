@@ -1,9 +1,59 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   text-align: center;
+  height: 100vh;
+  background-color: rgb(32, 29, 29);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #board {
   background-color: black;
   border: 5px solid skyblue;
   border-bottom: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.title {
+  font-size: 2rem;
+  color: white;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  min-width: 150px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* design drop menu with id level */
+#level {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  min-width: 150px;
+  background-color: #b7b7b7;
+  cursor: pointer;
+}
+
+.btn-start {
+  background-color: #2a2a2a;
+  color: white;
 }

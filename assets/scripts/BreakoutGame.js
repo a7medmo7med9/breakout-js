@@ -15,6 +15,7 @@ const gameSettings = {
 };
 
 class BreakoutGame {
+  level = "easy";
   constructor(props = BreakoutGameProps) {
     this.gameWidth = props.gameWidth;
     this.gameHeight = props.gameHeight;
@@ -30,10 +31,11 @@ class BreakoutGame {
       velocityX: gameSettings.player.playerVelocityX,
     });
 
-    this.initialize();
+    // stop the game from start automatically
+    // this.initialize();
   }
 
-  initialize() {
+  start() {
     // drow board
     this.board = document.getElementById("board");
     this.board.width = this.gameWidth;

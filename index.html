@@ -8,6 +8,24 @@
     <script src="./assets/scripts/script.js" type="module"></script>
   </head>
   <body>
-    <canvas id="board"></canvas>
+    <div class="container">
+      <div class="menu">
+        <h1 class="title">Breakout Game</h1>
+
+        <div>
+          <!-- # create drop down menu to select game level easy medium hard -->
+          <select name="level" id="level">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <button id="startTheGame" class="btn btn-start">Start Game</button>
+      </div>
+      <div class="game hide">
+        <canvas id="board"></canvas>
+      </div>
+    </div>
   </body>
 </html>
