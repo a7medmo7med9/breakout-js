@@ -30,7 +30,14 @@ class Ball extends Entity {
 
     checkForOutOfBounds(ball) {
       if (ball.y + ball.height > this.BreakoutGame.gameHeight) {
+        this.BreakoutGame.lives--;
+        if (this.BreakoutGame.lives === 0) {
           this.BreakoutGame.lose();
+          return;
+        }
+        ball.x = this.BreakoutGame.gameWidth / 2 - 5;
+        ball.y = this.BreakoutGame.gameHeight / 2 - 5;
+
         }
     if (ball.x < 0 || ball.x + ball.width > this.BreakoutGame.gameWidth) {
       ball.velocityX = -ball.velocityX;

@@ -37,12 +37,12 @@ const gameState = Object.freeze({
 class BreakoutGame {
   level = levels.easy;
   gameState = gameState.ready;
-
+  lives;
   constructor(_PROPS_ = BreakoutGameProps) {
     const props = { ...BreakoutGameProps, ..._PROPS_ };
     this.gameWidth = props.gameWidth;
     this.gameHeight = props.gameHeight;
-
+    this.lives = 3;
     // create score
     this.score = new Score({ ...props.score, BreakoutGame: this, x: 10, y: 25 });
 
@@ -145,8 +145,15 @@ class BreakoutGame {
 
     // drow score
     this.score.onFrameUpdate();
+
     // draw blocks
     this.block.onFrameUpdate();
+
+    this.context.font = "20px sans-serif";
+    this.context.fillStyle = "red";
+    this.context.fillText("Lives: "+this.lives, 720, 25);
+
+    
   }
 
   updateScore(score) {
@@ -157,8 +164,9 @@ class BreakoutGame {
     return xPosation < 0 || xPosation + this.player.width > this.gameWidth;
   }
   lose() {
-    this.stop();
-    alert("You lose");
+      this.stop();
+      alert("You lose");
+    
   }
 }
 
