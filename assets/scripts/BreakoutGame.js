@@ -1,11 +1,14 @@
 import Player, { playerProps } from "./Player.js";
 import Score, { scoreProps } from "./Score.js";
+import Ball, { BallProps } from "./Ball.js";
+
 
 const BreakoutGameProps = {
   gameWidth: 500,
   gameHeight: 500,
   player: playerProps,
   score: scoreProps,
+  ball: BallProps,
 };
 
 const gameSettings = {
@@ -49,6 +52,32 @@ class BreakoutGame {
       width: gameSettings.player.playerWidth,
       height: gameSettings.player.playerHeight,
       velocityX: gameSettings.player.playerVelocityX,
+    });
+    
+    // create the ball
+    let velX;
+    let velY;
+    if (this.level == levels.easy) {
+      velX = 1;
+      velY = 1;
+    }
+    else if (this.level === levels.medium) {
+      velX = 2;
+      velY = 1;
+    } else if (this.level === levels.hard) {
+      velX = 3;
+      velY = 2;
+    }
+    this.ball = new Ball({
+      ...props.ball,
+      BreakoutGame: this,
+      x: props.gameWidth / 2 - 5,
+      y: props.gameHeight / 2 - 5,
+      width: 10,
+      height: 10,
+      velocityX: velX,
+      velocityY: velY,
+      
     });
 
     // stop the game from start automatically
@@ -96,6 +125,9 @@ class BreakoutGame {
     // drow player
     this.player.onFrameUpdate();
 
+    // draw ball
+     this.ball.onFrameUpdate();
+
     // drow score
     this.score.onFrameUpdate();
   }
@@ -106,6 +138,10 @@ class BreakoutGame {
 
   outOfBounds(xPosation) {
     return xPosation < 0 || xPosation + this.player.width > this.gameWidth;
+  }
+  lose() {
+    this.stop();
+    alert("You lose");
   }
 }
 
