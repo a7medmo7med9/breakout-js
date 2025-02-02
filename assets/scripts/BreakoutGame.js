@@ -1,14 +1,17 @@
 import Player, { playerProps } from "./Player.js";
 import Score, { scoreProps } from "./Score.js";
 import Ball, { BallProps } from "./Ball.js";
+import Block, { BlockProps } from "./Blocks.js";
+
 
 
 const BreakoutGameProps = {
-  gameWidth: 500,
+  gameWidth: 800,
   gameHeight: 500,
   player: playerProps,
   score: scoreProps,
   ball: BallProps,
+  block: BlockProps,
 };
 
 const gameSettings = {
@@ -80,6 +83,18 @@ class BreakoutGame {
       
     });
 
+    //blocks
+    this.block = new Block({
+      ...props.ball,
+      BreakoutGame: this,
+      x: 25,
+      y: 35,
+      width: 60,
+      height: 15,
+    })
+
+    this.block.createBlocks(1); // 1 for level
+
     // stop the game from start automatically
     // this.initialize();
   }
@@ -130,6 +145,8 @@ class BreakoutGame {
 
     // drow score
     this.score.onFrameUpdate();
+    // draw blocks
+    this.block.onFrameUpdate();
   }
 
   updateScore(score) {
