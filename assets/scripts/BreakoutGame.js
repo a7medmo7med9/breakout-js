@@ -2,6 +2,7 @@ import Player, { playerProps } from "./Player.js";
 import Score, { scoreProps } from "./Score.js";
 import Ball, { BallProps } from "./Ball.js";
 import Block, { BlockProps } from "./Blocks.js";
+import { remainingPercentage } from "./utils.js";
 
 const BreakoutGameProps = {
   gameWidth: 800,
@@ -109,7 +110,7 @@ class BreakoutGame {
 
     // setup event listeners
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
-    window.addEventListener("resize", (e) => this.eventsHandler(e));
+    window.addEventListener("resize", (e) => this.resizeGame(e));
   }
 
   stop() {
@@ -123,19 +124,19 @@ class BreakoutGame {
 
   eventsHandler(e) {
     this.player.eventTrigger(e);
-    this.resizeGame(e);
   }
 
   resizeGame(e) {
     console.log("HHH");
 
-    this.gameHeight = document.documentElement.clientHeight - 15;
-    this.gameWidth = document.documentElement.clientWidth - 15;
-    // this.board.width = this.gameWidth;
-    // this.board.height = this.gameHeight;
+    this.gameHeight = document.documentElement.clientHeight - 20;
+    this.gameWidth = document.documentElement.clientWidth - 20;
 
     this.board.width = this.gameWidth;
     this.board.height = this.gameHeight;
+
+    this.player.onResizing();
+    this.ball.onResizing();
   }
 
   updateFrame() {

@@ -1,4 +1,5 @@
 import Entity, { entityProps } from "./Entity.js";
+import { remainingPercentage } from "./utils.js";
 
 export const playerProps = {
   ...entityProps,
@@ -12,6 +13,7 @@ class Player extends Entity {
     super({ ...props });
 
     this.velocityX = props.velocityX;
+    this.calcPlayerWidth();
   }
 
   eventTrigger(e) {
@@ -36,6 +38,15 @@ class Player extends Entity {
         }
         break;
     }
+  }
+
+  calcPlayerWidth() {
+    let value = remainingPercentage(this.BreakoutGame.gameWidth, 15).deducted;
+    this.width = value < 150 ? 150 : value;
+  }
+
+  onResizing() {
+    this.calcPlayerWidth();
   }
 
   onFrameUpdate() {

@@ -61,6 +61,16 @@ class Entity {
   onFrameUpdate() {
     throw "Abstract method onFrameUpdate not implemented";
   }
+
+  /**
+   * this function get call on window resize
+   *
+   * @abstract
+   * @void
+   */
+  onResizing() {
+    throw "Abstract method onResizing not implemented";
+  }
 }
 
 export default Entity;
