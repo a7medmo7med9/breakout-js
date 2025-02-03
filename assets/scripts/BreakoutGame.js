@@ -3,8 +3,6 @@ import Score, { scoreProps } from "./Score.js";
 import Ball, { BallProps } from "./Ball.js";
 import Block, { BlockProps } from "./Blocks.js";
 
-
-
 const BreakoutGameProps = {
   gameWidth: 800,
   gameHeight: 500,
@@ -56,15 +54,14 @@ class BreakoutGame {
       height: gameSettings.player.playerHeight,
       velocityX: gameSettings.player.playerVelocityX,
     });
-    
+
     // create the ball
     let velX;
     let velY;
     if (this.level == levels.easy) {
       velX = 1;
       velY = 1;
-    }
-    else if (this.level === levels.medium) {
+    } else if (this.level === levels.medium) {
       velX = 2;
       velY = 1;
     } else if (this.level === levels.hard) {
@@ -80,7 +77,6 @@ class BreakoutGame {
       height: 10,
       velocityX: velX,
       velocityY: velY,
-      
     });
 
     //blocks
@@ -91,7 +87,7 @@ class BreakoutGame {
       y: 35,
       width: 60,
       height: 15,
-    })
+    });
 
     this.block.createBlocks(1); // 1 for level
 
@@ -113,6 +109,7 @@ class BreakoutGame {
 
     // setup event listeners
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
+    window.addEventListener("resize", (e) => this.eventsHandler(e));
   }
 
   stop() {
@@ -126,6 +123,19 @@ class BreakoutGame {
 
   eventsHandler(e) {
     this.player.eventTrigger(e);
+    this.resizeGame(e);
+  }
+
+  resizeGame(e) {
+    console.log("HHH");
+
+    this.gameHeight = document.documentElement.clientHeight - 15;
+    this.gameWidth = document.documentElement.clientWidth - 15;
+    // this.board.width = this.gameWidth;
+    // this.board.height = this.gameHeight;
+
+    this.board.width = this.gameWidth;
+    this.board.height = this.gameHeight;
   }
 
   updateFrame() {
@@ -141,7 +151,7 @@ class BreakoutGame {
     this.player.onFrameUpdate();
 
     // draw ball
-     this.ball.onFrameUpdate();
+    this.ball.onFrameUpdate();
 
     // drow score
     this.score.onFrameUpdate();
@@ -151,9 +161,7 @@ class BreakoutGame {
 
     this.context.font = "20px sans-serif";
     this.context.fillStyle = "red";
-    this.context.fillText("Lives: "+this.lives, 720, 25);
-
-    
+    this.context.fillText("Lives: " + this.lives, 720, 25);
   }
 
   updateScore(score) {
@@ -164,9 +172,8 @@ class BreakoutGame {
     return xPosation < 0 || xPosation + this.player.width > this.gameWidth;
   }
   lose() {
-      this.stop();
-      alert("You lose");
-    
+    this.stop();
+    alert("You lose");
   }
 }
 

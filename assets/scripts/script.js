@@ -1,7 +1,7 @@
 import BreakoutGame from "./BreakoutGame.js";
 
 // start the game
-const game = new BreakoutGame();
+const game = new BreakoutGame({ gameHeight: document.documentElement.clientHeight - 15, gameWidth: document.documentElement.clientWidth - 15 });
 
 document.querySelector("#startTheGame").addEventListener("click", () => {
   document.querySelector(".menu").classList.add("hide");
