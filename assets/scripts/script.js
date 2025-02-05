@@ -1,16 +1,16 @@
 import BreakoutGame from "./BreakoutGame.js";
 
 // start the game
-const game = new BreakoutGame({ gameHeight: document.documentElement.clientHeight - 20, gameWidth: document.documentElement.clientWidth - 20 });
+const game = new BreakoutGame({ gameHeight: 500, gameWidth: 800 });
 
 document.querySelector("#startTheGame").addEventListener("click", () => {
   document.querySelector(".menu").classList.add("hide");
   document.querySelector(".game").classList.remove("hide");
   game.level = document.querySelector("#level").value;
   game.start();
-
+  game.ball.velocityX
   // you can update the score like this
-  game.updateScore(10);
+  // game.updateScore(10);
 
   // you can use stop to stop the game if player lose
   // game.stop();

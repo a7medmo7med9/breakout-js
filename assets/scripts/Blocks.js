@@ -1,4 +1,6 @@
 import Entity, { entityProps } from "./Entity.js";
+import { remainingPercentage } from "./utils.js";
+
 export const BlockProps = {
     ...entityProps,
 
@@ -16,7 +18,6 @@ export const BlockProps = {
           [ 2, 2, 2, 2, 2, 2, 2, 2],
           [ 2, 2, 2, 2, 2, 2, 2, 2],
           [ 2, 2, 2, 2, 2, 2, 2, 2],
-          [ 2, 2, 2, 2, 2, 2, 2, 2],
           [-1,-1,-1,-1,-1,-1,-1,-1],
         ],
         // Level 2
@@ -26,7 +27,7 @@ export const BlockProps = {
           [-1,  2,  2,  2,  2,  2,  2, -1],
           [-1,  2,  2,  2,  2,  2,  2, -1],
           [-1,  2,  2,  2,  2,  2,  2, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1],
+          [-1, -1, -1, -1, -1, -1, -1, -1], 
         ],
         // Level 3
         [
@@ -36,6 +37,7 @@ export const BlockProps = {
           [ 2, -1,  2, -1,  2, -1,  2, -1],
           [-1,  2, -1,  2, -1,  2, -1,  2],
           [ 2, -1,  2, -1,  2, -1,  2, -1],
+          
         ],
         // Level 4
         [
@@ -46,6 +48,7 @@ export const BlockProps = {
           [-1,  2, -1,  2,  2, -1,  2, -1],
           [-1,  2,  2,  2,  2,  2,  2, -1],
           [-1, -1, -1,  2,  2, -1, -1, -1],
+         
         ],
         // Level 5
         [
@@ -53,6 +56,7 @@ export const BlockProps = {
             [-1, -1, -1, -1, -1, -1, -1, -1],
             [ 2,  2,  2,  2,  2,  2,  2,  2],
             [-1, -1, -1, -1, -1, -1, -1, -1],
+            
             [ 2,  2,  2,  2,  2,  2,  2,  2],
             [-1, -1, -1, -1, -1, -1, -1, -1],
             [ 2,  2,  2,  2,  2,  2,  2,  2],
@@ -67,19 +71,21 @@ export const BlockProps = {
   }
 
   onFrameUpdate() {
+    let flag=false;
     for (let i = 0; i < this.blockArray.length; i++) {
         let block = this.blockArray[i];
         if (block.breaker != 0) {
           this.BreakoutGame.context.fillStyle = "skyblue";
           if (block.breaker == -1) this.BreakoutGame.context.fillStyle = "grey";
           if (block.breaker == 1) this.BreakoutGame.context.fillStyle = "rgba(135, 207, 235, 0.4)";
-          this.BreakoutGame.context.fillRect(block.x, block.y, block.width, block.height);
+          this.BreakoutGame.context.fillRect(block.x, block.y, this.width, block.height);
           
           if (this.detectCollision(this.BreakoutGame.ball, block)) {
             this.resolveCollision(this.BreakoutGame.ball, block);
             if (block.breaker > 0) {
               block.breaker -= 1;
               if (block.breaker == 0){
+                this.BreakoutGame.updateScore(10);
                 if (Math.random() >= 0 && this.live.available == false){
                   this.live.available = true;
                   this.live.x = block.x + block.width/2;
@@ -89,7 +95,18 @@ export const BlockProps = {
             }
           }
         }
+        if (block.breaker>0) {
+          flag=true;
+        }
       }
+if(flag===false) {
+  if (this.BreakoutGame.nextLevel<5) {
+    this.BreakoutGame.nextLevel++;
+  }
+  this.createBlocks(this.BreakoutGame.nextLevel);
+  console.log(this.BreakoutGame.nextLevel);
+  
+}
 
 
     if (this.live.available == true){
@@ -109,9 +126,12 @@ export const BlockProps = {
     }
   }
 
+
   createBlocks(level) {
     const layout = this.levels[level-1];
     this.blockArray = [];
+    console.log(layout.length);
+    
     for (let i = 0; i < layout.length; i++) {
       for (let j = 0; j < layout[i].length; j++) {
         if (layout[i][j] !== 0) {
@@ -170,7 +190,10 @@ resolveCollision(ball, block) {
         }
     }
 }
+
+
   
+
 }
 
 export default Block;

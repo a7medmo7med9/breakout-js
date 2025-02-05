@@ -17,7 +17,7 @@ const gameSettings = {
   player: {
     playerWidth: 80,
     playerHeight: 10,
-    playerVelocityX: 10,
+    playerVelocityX: 20,
   },
 };
 
@@ -34,14 +34,16 @@ const gameState = Object.freeze({
 });
 
 class BreakoutGame {
-  level = levels.easy;
+  level = 1;
   gameState = gameState.ready;
   lives;
-  constructor(_PROPS_ = BreakoutGameProps) {
+  // nextLevel=1;
+  constructor(_PROPS_ = BreakoutGameProps,nextLevel) {
     const props = { ...BreakoutGameProps, ..._PROPS_ };
     this.gameWidth = props.gameWidth;
     this.gameHeight = props.gameHeight;
     this.lives = 3;
+    this.nextLevel=1;
     // create score
     this.score = new Score({ ...props.score, BreakoutGame: this, x: 10, y: 25 });
 
@@ -57,11 +59,11 @@ class BreakoutGame {
     });
 
     // create the ball
-    let velX;
-    let velY;
+    let velX = 2;
+    let velY = 2;
     if (this.level == levels.easy) {
-      velX = 1;
-      velY = 1;
+      velX = 2;
+      velY = 2;
     } else if (this.level === levels.medium) {
       velX = 2;
       velY = 1;
@@ -90,7 +92,7 @@ class BreakoutGame {
       height: 15,
     });
 
-    this.block.createBlocks(1); // 1 for level
+    this.block.createBlocks(this.nextLevel); // 1 for level
 
     // stop the game from start automatically
     // this.initialize();
@@ -110,7 +112,6 @@ class BreakoutGame {
 
     // setup event listeners
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
-    window.addEventListener("resize", (e) => this.resizeGame(e));
   }
 
   stop() {
@@ -124,19 +125,6 @@ class BreakoutGame {
 
   eventsHandler(e) {
     this.player.eventTrigger(e);
-  }
-
-  resizeGame(e) {
-    console.log("HHH");
-
-    this.gameHeight = document.documentElement.clientHeight - 20;
-    this.gameWidth = document.documentElement.clientWidth - 20;
-
-    this.board.width = this.gameWidth;
-    this.board.height = this.gameHeight;
-
-    this.player.onResizing();
-    this.ball.onResizing();
   }
 
   updateFrame() {

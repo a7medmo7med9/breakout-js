@@ -9,30 +9,18 @@ export const BallProps = {
 };
 
 class Ball extends Entity {
-  radius = 10;
-  constructor(_PROPS_ = BallProps) {
-    const props = { ...BallProps, ..._PROPS_ };
+  constructor(PROPS = BallProps) {
+    const props = { ...BallProps, ...PROPS };
     super({ ...props });
     this.color = "white";
     this.velocityX = props.velocityX;
     this.velocityY = props.velocityY;
-
-    this.calcBallWidth();
   }
 
   onFrameUpdate() {
     this.BreakoutGame.context.fillStyle = this.color;
     this.BreakoutGame.context.fillRect(this.x, this.y, this.width, this.height);
     this.moveBall(this);
-  }
-
-  calcBallWidth() {
-    let wValue = remainingPercentage(this.BreakoutGame.gameWidth, 2).deducted;
-    this.width = wValue < 10 ? 10 : wValue;
-    this.height = wValue < 10 ? 10 : wValue;
-  }
-  onResizing() {
-    this.calcBallWidth();
   }
 
   moveBall(ball) {
@@ -50,22 +38,33 @@ class Ball extends Entity {
       }
       ball.x = this.BreakoutGame.gameWidth / 2 - 5;
       ball.y = this.BreakoutGame.gameHeight / 2 - 5;
-    }
-    if (ball.x < 0 || ball.x + ball.width > this.BreakoutGame.gameWidth) {
-      ball.velocityX = -ball.velocityX;
-    }
-    if (ball.y < 0 || this.topCollision(ball, this.BreakoutGame.player)) {
-      ball.velocityY = -ball.velocityY;
-    }
+
+      }
+      if (ball.y < 0 || this.topCollision(ball, this.BreakoutGame.player)) {
+        ball.velocityY = -ball.velocityY;
+        if (this.topCollision(ball, this.BreakoutGame.player)) {
+          ball.y -= Math.abs(ball.velocityY);            
+        }
+      }
+      
+  else if (ball.x < 0 || ball.x + ball.width > this.BreakoutGame.gameWidth || this.rightCollision(ball, this.BreakoutGame.player) || this.leftCollision(ball, this.BreakoutGame.player)) {
+    ball.velocityX = -ball.velocityX;
   }
+}
+
 
   detectCollision(a, b) {
-    return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+    return (
+      a.x < b.x + b.width && 
+      a.x + a.width > b.x && 
+      a.y < b.y + b.height && 
+      a.y + a.height > b.y
+    ); 
   }
 
   topCollision(ball, block) {
-    //a is above b (ball is above block)
-    return this.detectCollision(ball, block) && ball.y + ball.height >= block.y;
+  
+    return this.detectCollision(ball, block) && ball.y + ball.height >= block.y && ball.x >= block.x && ball.x + ball.width <= block.x + block.width;
   }
 
   bottomCollision(ball, block) {
@@ -75,6 +74,7 @@ class Ball extends Entity {
 
   leftCollision(ball, block) {
     //a is left of b (ball is left of block)
+
     return this.detectCollision(ball, block) && ball.x + ball.width >= block.x;
   }
 
