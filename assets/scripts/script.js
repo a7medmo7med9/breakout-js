@@ -19,6 +19,8 @@ document.getElementById('newTheGame').addEventListener('click',function () {
   document.querySelector(".menu").classList.remove("hide");
   document.querySelector(".game").classList.add("hide");
   game.lives=4;
+  game.nextLevel=1;
+  game.block.createBlocks(game.nextLevel);
         
 })
 
