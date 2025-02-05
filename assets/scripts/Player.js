@@ -39,9 +39,25 @@ class Player extends Entity {
     }
   }
 
+  mouseMoveHandler(e,bard) {
+    let rect = bard.getBoundingClientRect();
+    let mouseX = e.clientX - rect.left;
+    this.x = mouseX - this.width / 2;
+
+    if (this.x < 0) this.x = 0;
+    if (this.x + this.width > this.BreakoutGame.gameWidth)
+      this.x = this.BreakoutGame.gameWidth - this.width;
+  }
+
   onFrameUpdate() {
     this.BreakoutGame.context.fillStyle = this.color;
-    this.BreakoutGame.context.fillRect(this.x, this.y, this.width, this.height);
+    this.BreakoutGame.context.beginPath();
+    if (this.BreakoutGame.context.roundRect) {
+      this.BreakoutGame.context.roundRect(this.x, this.y, this.width, this.height,20);
+    } else {
+      this.BreakoutGame.context.rect(this.x, this.y, this.width, this.height);
+    }
+    this.BreakoutGame.context.fill();
   }
 }
 

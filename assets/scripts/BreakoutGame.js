@@ -59,8 +59,8 @@ class BreakoutGame {
     });
 
     // create the ball
-    let velX = 2;
-    let velY = 2;
+    let velX = 0;
+    let velY = 0;
     if (this.level == levels.easy) {
       velX = 2;
       velY = 2;
@@ -114,6 +114,7 @@ class BreakoutGame {
 
     // setup event listeners
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
+    document.addEventListener("mousemove", (e) => this.mouseHandler(e)); 
   }
 
   stop() {
@@ -129,6 +130,10 @@ class BreakoutGame {
 
   eventsHandler(e) {
     this.player.eventTrigger(e);    
+  }
+
+  mouseHandler(e) {
+    this.player.mouseMoveHandler(e,this.board);    
   }
 
   updateFrame() {

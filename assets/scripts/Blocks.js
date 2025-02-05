@@ -11,57 +11,6 @@ class Block extends Entity {
     const props = { ...BlockProps, ..._PROPS_ };
     super({ ...props });
     this.blockArray = [];
-    this.levels = [
-      // Level 1
-      [
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-      ],
-      // Level 2
-      [
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, 2, 2, 2, 2, 2, 2, -1],
-        [-1, 2, 2, 2, 2, 2, 2, -1],
-        [-1, 2, 2, 2, 2, 2, 2, -1],
-        [-1, 2, 2, 2, 2, 2, 2, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-      ],
-      // Level 3
-      [
-        [-1, 2, -1, 2, -1, 2, -1, 2],
-        [2, -1, 2, -1, 2, -1, 2, -1],
-        [-1, 2, -1, 2, -1, 2, -1, 2],
-        [2, -1, 2, -1, 2, -1, 2, -1],
-        [-1, 2, -1, 2, -1, 2, -1, 2],
-        [2, -1, 2, -1, 2, -1, 2, -1],
-
-      ],
-      // Level 4
-      [
-        [2, -1, -1, -1, -1, -1, -1, 2],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [-1, 2, -1, -1, -1, -1, 2, -1],
-        [-1, 2, -1, 2, 2, -1, 2, -1],
-        [-1, 2, -1, 2, 2, -1, 2, -1],
-        [-1, 2, 2, 2, 2, 2, 2, -1],
-        [-1, -1, -1, 2, 2, -1, -1, -1],
-
-      ],
-      // Level 5
-      [
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [-1, -1, -1, -1, -1, -1, -1, -1],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-      ],
-    ];
     this.live = {
       available: false,
       x: 0,
@@ -89,7 +38,7 @@ class Block extends Entity {
             block.breaker -= 1;
             if (block.breaker == 0) {
               this.BreakoutGame.updateScore(10);
-              if (Math.random() >= 0 && this.live.available == false) {
+              if (Math.random() >= 0.9 && this.live.available == false) {
                 this.live.available = true;
                 this.live.x = block.x + block.width / 2;
                 this.live.y = block.y + block.height;
@@ -103,11 +52,10 @@ class Block extends Entity {
       }
     }
     if (flag === false) {
-      if (this.BreakoutGame.nextLevel < 5) {
-        this.BreakoutGame.nextLevel++;
-      }
-      this.createBlocks(this.BreakoutGame.nextLevel);
-      console.log(this.BreakoutGame.nextLevel);
+
+      this.BreakoutGame.nextLevel++;
+      this.createBlocks();
+      this.live.available = false;
 
     }
 
@@ -118,78 +66,87 @@ class Block extends Entity {
       this.BreakoutGame.context.beginPath();
       this.BreakoutGame.context.arc(this.live.x, this.live.y, this.live.radius, 0, Math.PI * 2);
       this.BreakoutGame.context.fill();
-      this.BreakoutGame.context.fillStyle = "red";  // Color of the text
-      this.BreakoutGame.context.font = "bold 1.8em Arial";  // Font size and type
-      this.BreakoutGame.context.textAlign = "center";  // Center the text horizontally
-      this.BreakoutGame.context.textBaseline = "middle  ";  // Center the text vertically
-
-      // Draw the text inside the circle
+      this.BreakoutGame.context.fillStyle = "red";  
+      this.BreakoutGame.context.font = "bold 1.8em Arial";  
+      this.BreakoutGame.context.textAlign = "center";  
+      this.BreakoutGame.context.textBaseline = "middle  ";  
       this.BreakoutGame.context.fillText("♥︎", this.live.x, this.live.y);
-      if (this.live.y >= this.BreakoutGame.boardHeight) this.live.available = false;
+
+      if (this.live.y >= this.BreakoutGame.gameHeight - 2 ) this.live.available = false;
+        if (this.detectCollision( this.live, this.BreakoutGame.player )) {
+          this.live.available = false;
+          this.BreakoutGame.lives += 1;
+          document.getElementById('lives').innerText = " ♥︎ : " + this.BreakoutGame.lives;
+        }
     }
   }
 
 
-  createBlocks(level) {
-    const layout = this.levels[level - 1];
-    this.blockArray = [];
-    console.log(layout.length);
+  createBlocks() {
+    this.blockArray = [];  
+    let choices = [-1,1,2] 
+    let unbreakable = 0;    
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < 8; j++) {
+          let random = choices[Math.floor(Math.random()*choices.length)]
 
-    for (let i = 0; i < layout.length; i++) {
-      for (let j = 0; j < layout[i].length; j++) {
-        if (layout[i][j] !== 0) {
+          if ( random === -1 ){
+            if ( unbreakable >= 12 ){
+              Math.random() > 0.7 ? random = 2: random = 1;
+            }else unbreakable++;
+          } 
+
           let block = {
-            x: this.x + j * (this.width + 38),
+            x: this.x + j * (this.width + 38 ), 
             y: this.y + i * (this.height + 20),
             width: this.width,
             height: this.height,
-            breaker: layout[i][j],
+            breaker: random,
           };
+
           this.blockArray.push(block);
-        }
       }
     }
   }
 
   detectCollision(ball, block) {
     return (
-      ball.x < block.x + block.width &&
-      ball.x + ball.width > block.x &&
-      ball.y < block.y + block.height &&
-      ball.y + ball.height > block.y
+      ball.x - ball.radius < block.x + block.width &&
+      ball.x + ball.radius > block.x &&
+      ball.y - ball.radius < block.y + block.height &&
+      ball.y + ball.radius > block.y
     );
   }
 
+  
   resolveCollision(ball, block) {
-    let ballCenterX = ball.x + ball.width / 2;
-    let ballCenterY = ball.y + ball.height / 2;
+    let ballCenterX = ball.x;
+    let ballCenterY = ball.y;
     let blockCenterX = block.x + block.width / 2;
     let blockCenterY = block.y + block.height / 2;
-
+  
     let dx = ballCenterX - blockCenterX;
     let dy = ballCenterY - blockCenterY;
-
-    let combinedHalfWidth = block.width / 2 + ball.width / 2;
-    let combinedHalfHeight = block.height / 2 + ball.height / 2;
-
+  
+    let combinedHalfWidth = block.width / 2 + ball.radius;
+    let combinedHalfHeight = block.height / 2 + ball.radius;
+  
     let overlapX = combinedHalfWidth - Math.abs(dx);
     let overlapY = combinedHalfHeight - Math.abs(dy);
-
+  
     if (overlapX < overlapY) {
-      // Horizontal collision
       ball.velocityX *= -1;
       if (dx > 0) {
-        ball.x = block.x + block.width;
+        ball.x = block.x + block.width + ball.radius; 
       } else {
-        ball.x = block.x - ball.width;
+        ball.x = block.x - ball.radius; 
       }
     } else {
-      // Vertical collision
       ball.velocityY *= -1;
       if (dy > 0) {
-        ball.y = block.y + block.height;
+        ball.y = block.y + block.height + ball.radius; 
       } else {
-        ball.y = block.y - ball.height;
+        ball.y = block.y - ball.radius; 
       }
     }
   }
