@@ -108,13 +108,13 @@ class BreakoutGame {
     this.board.width = this.gameWidth;
     this.board.height = this.gameHeight;
     this.context = this.board.getContext("2d");
- document.getElementById('lives').innerText = " ♥︎ : " + this.lives;
+    document.getElementById('lives').innerText = " ♥︎ : " + this.lives;
     // update the game each frame
     this.updateFrame();
 
     // setup event listeners
     document.addEventListener("keydown", (e) => this.eventsHandler(e));
-    document.addEventListener("mousemove", (e) => this.mouseHandler(e)); 
+    document.addEventListener("mousemove", (e) => this.mouseHandler(e));
   }
 
   stop() {
@@ -129,11 +129,11 @@ class BreakoutGame {
   }
 
   eventsHandler(e) {
-    this.player.eventTrigger(e);    
+    this.player.eventTrigger(e);
   }
 
   mouseHandler(e) {
-    this.player.mouseMoveHandler(e,this.board);    
+    this.player.mouseMoveHandler(e, this.board);
   }
 
   updateFrame() {
@@ -157,12 +157,12 @@ class BreakoutGame {
     // draw blocks
     this.block.onFrameUpdate();
 
-   
+
   }
 
   updateScore(score) {
     this.score.score += score;
-    
+
   }
 
 
@@ -170,18 +170,18 @@ class BreakoutGame {
     return xPosation < 0 || xPosation + this.player.width > this.gameWidth;
   }
   lose() {
-  
-    
+
+
     this.stop();
-    
-    
+
+
 
     const myTimeout = setTimeout(function () {
       document.querySelector(".lose-screen").classList.remove("hide");
-    
+
     }, 1);
     myTimeout()
-clearTimeout(myTimeout);
+    clearTimeout(myTimeout);
 
 
   }

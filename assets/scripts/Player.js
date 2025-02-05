@@ -43,7 +43,7 @@ class Player extends Entity {
     let rect = bard.getBoundingClientRect();
     let mouseX = e.clientX - rect.left;
     this.x = mouseX - this.width / 2;
-
+    document.getElementById('board').style.cursor='none'
     if (this.x < 0) this.x = 0;
     if (this.x + this.width > this.BreakoutGame.gameWidth)
       this.x = this.BreakoutGame.gameWidth - this.width;

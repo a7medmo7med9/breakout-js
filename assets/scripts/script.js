@@ -42,6 +42,11 @@ x.addEventListener("change", function() {
   myFunction(x);
 });
 
+
+document.querySelector('canvas').addEventListener('mousemove',function (e) {
+ 
+  
+})
 // **************************
 // start the game with custom props
 // const game = new BreakoutGame({ gameWidth: 500, gameHeight: 500 });
