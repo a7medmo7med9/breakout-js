@@ -15,7 +15,7 @@ background: radial-gradient(circle, rgba(236, 107, 9, 0.522) 0%, rgba(241, 235, 
 #board {
   background: rgb(0,0,0);
 background: radial-gradient(circle, rgb(0, 0, 0) 0%, rgb(97, 94, 94) 100%);
-  border: 5px solid rgba(255, 255, 255, 0);
+  /* border: 5px solid rgba(255, 255, 255, 0); */
   border-radius: 5px;
   border-bottom: none;
 }
@@ -92,4 +92,13 @@ background: radial-gradient(circle, rgb(0, 0, 0) 0%, rgb(97, 94, 94) 100%);
   0% { opacity: 1; text-shadow: 3px 3px 15px red, 0px 0px 5px black; }
   50% { opacity: 0.8; text-shadow: 1px 1px 5px darkred, 0px 0px 2px black; }
   100% { opacity: 1; text-shadow: 3px 3px 10px red, 0px 0px 5px black; }
+}
+.flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mq{
+ 
+  height: 100vh;
 }

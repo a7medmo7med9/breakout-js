@@ -24,6 +24,24 @@ document.getElementById('newTheGame').addEventListener('click',function () {
         
 })
 
+function myFunction(x) {
+  if (x.matches) { 
+    document.querySelector('.container').classList.add('hide');
+    document.querySelector('.mq').classList.replace('hide','flex');
+  } else {
+    document.querySelector('.container').classList.remove('hide');
+    document.querySelector('.mq').classList.replace('flex','hide');
+  }
+}
+
+var x = window.matchMedia("(max-width: 1024px)")
+
+myFunction(x);
+
+x.addEventListener("change", function() {
+  myFunction(x);
+});
+
 // **************************
 // start the game with custom props
 // const game = new BreakoutGame({ gameWidth: 500, gameHeight: 500 });
