@@ -59,8 +59,8 @@ class BreakoutGame {
     });
 
     // create the ball
-    let velX = 0;
-    let velY = 0;
+    let velX = 2;
+    let velY = 4;
     if (this.level == levels.easy) {
       velX = 2;
       velY = 2;
