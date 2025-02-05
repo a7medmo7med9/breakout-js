@@ -1,5 +1,5 @@
 * {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
 }
@@ -7,13 +7,16 @@
 body {
   text-align: center;
   height: 100vh;
-  background-color: rgb(32, 29, 29);
+  background: rgb(236,107,9);
+background: radial-gradient(circle, rgba(236, 107, 9, 0.522) 0%, rgba(241, 235, 235, 0.579) 100%);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 #board {
-  background-color: black;
-  border: 5px solid skyblue;
+  background: rgb(0,0,0);
+background: radial-gradient(circle, rgb(0, 0, 0) 0%, rgb(97, 94, 94) 100%);
+  border: 5px solid rgba(255, 255, 255, 0);
+  border-radius: 5px;
   border-bottom: none;
 }
 
@@ -56,4 +59,37 @@ body {
 .btn-start {
   background-color: #2a2a2a;
   color: white;
+}
+.score{
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 50px;
+  color: #170656;
+  font-size: 30px;
+  font-weight: 900;
+  #lives{
+    color: #ef0000;
+  }
+}
+
+.lose-screen {
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 10px red, 0px 0px 5px black;
+  padding: 30px;
+  position: absolute;
+  top: 50%;   
+  left: 50%;  
+   transform: translate(-50%, -50%);
+  animation: flicker 1.5s infinite alternate;
+}
+
+/* Flickering Animation */
+@keyframes flicker {
+  0% { opacity: 1; text-shadow: 3px 3px 15px red, 0px 0px 5px black; }
+  50% { opacity: 0.8; text-shadow: 1px 1px 5px darkred, 0px 0px 2px black; }
+  100% { opacity: 1; text-shadow: 3px 3px 10px red, 0px 0px 5px black; }
 }

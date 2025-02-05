@@ -38,12 +38,12 @@ class BreakoutGame {
   gameState = gameState.ready;
   lives;
   // nextLevel=1;
-  constructor(_PROPS_ = BreakoutGameProps,nextLevel) {
+  constructor(_PROPS_ = BreakoutGameProps, nextLevel) {
     const props = { ...BreakoutGameProps, ..._PROPS_ };
     this.gameWidth = props.gameWidth;
     this.gameHeight = props.gameHeight;
     this.lives = 3;
-    this.nextLevel=1;
+    this.nextLevel = 1;
     // create score
     this.score = new Score({ ...props.score, BreakoutGame: this, x: 10, y: 25 });
 
@@ -99,14 +99,16 @@ class BreakoutGame {
   }
 
   start() {
+    document.querySelector(".lose-screen").classList.add("hide");
     this.gameState = gameState.started;
-
+    const sound = new Audio('/assets/sound/The-Builder(chosic.com).mp3');
+    sound.pause();
     // drow board
     this.board = document.getElementById("board");
     this.board.width = this.gameWidth;
     this.board.height = this.gameHeight;
     this.context = this.board.getContext("2d");
-
+ document.getElementById('lives').innerText = " ♥︎ : " + this.lives;
     // update the game each frame
     this.updateFrame();
 
@@ -117,6 +119,8 @@ class BreakoutGame {
   stop() {
     this.gameState = gameState.stopped;
 
+
+
     // remove all event listeners
     document.removeEventListener("keydown", (e) => this.eventsHandler(e));
     // reset score to 0
@@ -124,7 +128,7 @@ class BreakoutGame {
   }
 
   eventsHandler(e) {
-    this.player.eventTrigger(e);
+    this.player.eventTrigger(e);    
   }
 
   updateFrame() {
@@ -148,22 +152,36 @@ class BreakoutGame {
     // draw blocks
     this.block.onFrameUpdate();
 
-    this.context.font = "20px sans-serif";
-    this.context.fillStyle = "red";
-    this.context.fillText("Lives: " + this.lives, 720, 25);
+   
   }
 
   updateScore(score) {
     this.score.score += score;
+    
   }
+
 
   outOfBounds(xPosation) {
     return xPosation < 0 || xPosation + this.player.width > this.gameWidth;
   }
   lose() {
+  
+    
     this.stop();
-    alert("You lose");
+    
+    
+
+    const myTimeout = setTimeout(function () {
+      document.querySelector(".lose-screen").classList.remove("hide");
+    
+    }, 1);
+    myTimeout()
+clearTimeout(myTimeout);
+
+
   }
 }
+
+
 
 export default BreakoutGame;

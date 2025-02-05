@@ -14,9 +14,9 @@ class Score extends Entity {
   }
 
   onFrameUpdate() {
-    this.BreakoutGame.context.font = "20px sans-serif";
-    this.BreakoutGame.context.fillStyle = this.color;
-    this.BreakoutGame.context.fillText(this.score, this.x, this.y);
+
+    document.getElementById('score').innerText=" score : " + this.score;
+
   }
 }
 

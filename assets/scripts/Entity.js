@@ -6,7 +6,7 @@ export const entityProps = {
   y: 0,
   width: 0,
   height: 0,
-  color: "lightgreen",
+  color: "rgb(191, 193, 193)",
 };
 class Entity {
   constructor(_PROPS_ = entityProps) {

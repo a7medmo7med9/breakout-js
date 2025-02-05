@@ -15,6 +15,12 @@ document.querySelector("#startTheGame").addEventListener("click", () => {
   // you can use stop to stop the game if player lose
   // game.stop();
 });
+document.getElementById('newTheGame').addEventListener('click',function () {
+  document.querySelector(".menu").classList.remove("hide");
+  document.querySelector(".game").classList.add("hide");
+  game.lives=4;
+        
+})
 
 // **************************
 // start the game with custom props

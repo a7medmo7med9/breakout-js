@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="menu">
+      <div class="menu ">
         <h1 class="title">Breakout Game</h1>
 
         <div>
@@ -24,7 +24,15 @@
         <button id="startTheGame" class="btn btn-start">Start Game</button>
       </div>
       <div class="game hide">
-        <canvas id="board"></canvas>
+        <ul class="score ">
+          <li id="score" >score</li>
+          <li id="lives" >lives</li>
+        </ul>
+        <canvas class="" id="board"></canvas>
+        <div class="lose-screen ">
+          <h1>YOU LOSE</h1>
+          <button id="newTheGame" class="btn btn-start">New Game</button>
+      </div>
       </div>
     </div>
   </body>
